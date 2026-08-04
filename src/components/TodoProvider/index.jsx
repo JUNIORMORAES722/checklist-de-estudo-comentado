@@ -5,9 +5,10 @@ const TODOS = 'todos';
 
 export function TodoProvider({ children }) {
 
+  const [todos, setTodos] = useState(() => {
   const savedTodos = localStorage.getItem(TODOS)
-
-  const [todos, setTodos] = useState(savedTodos ? JSON.parse(savedTodos) : [])
+    return savedTodos ? JSON.parse(savedTodos) : []
+  })
   const [showDialog, setShowDialog] = useState(false)
   const [selectedTodo, setSelectedTodo] = useState();
 
@@ -34,7 +35,7 @@ export function TodoProvider({ children }) {
     const description = formData.get("description")
     setTodos((prevState) => {
       const todo = {
-        id: prevState.length + 1,
+        id: crypto.randomUUID(),
         description,
         completed: false,
         createdAt: new Date().toISOString(),
@@ -46,11 +47,8 @@ export function TodoProvider({ children }) {
   const toggleTodoCompleted = (todo) => {
     setTodos((prevState) => {
       return prevState.map((t) => {
-        if (t.id == todo.id) {
-          return {
-            ...t,
-            completed: !t.completed,
-          }
+        if (t.id === todo.id) {
+          return {...t, completed: !t.completed}
         }
         return t
       })
@@ -60,11 +58,8 @@ export function TodoProvider({ children }) {
    const editTodo = (formData) => {
     setTodos((prevState) => {
       return prevState.map((t) => {
-        if (t.id == selectedTodo.id) {
-          return {
-            ...t,
-            description: formData.get('description')
-          }
+        if (t.id === selectedTodo.id) {
+          return {...t, description: formData.get('description'),}
         }
         return t
       })
@@ -73,7 +68,7 @@ export function TodoProvider({ children }) {
 
   const deleteTodo = (todo) => {
     setTodos((prevState) => {
-      return prevState.filter(t => t.id != todo.id)
+      return prevState.filter(t => t.id !== todo.id)
     })
   }
 

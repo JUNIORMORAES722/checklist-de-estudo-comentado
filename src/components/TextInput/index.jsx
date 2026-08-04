@@ -1,4 +1,4 @@
-import './text-Input.style.css'
+import './text-input.style.css'
 
 export function TextInput (props) {
 
