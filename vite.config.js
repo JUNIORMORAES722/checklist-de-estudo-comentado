@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: 'https://juniormoraes722.github.io/checklist-de-estudo-comentado/'
+  base: '/checklist-de-estudo-comentado/'
 })
